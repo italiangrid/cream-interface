@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.eu-emi.eu/es/2010/12/resourceinfo/types"
+	xmlns:tns="http://www.eu-emi.eu/es/2010/12/resourceinfo/types"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:esmain="http://www.eu-emi.eu/es/2010/12/types"
+	xmlns:glue="http://schemas.ogf.org/glue/2009/03/spec_2.0_r1"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xsd:import schemaLocation="es-main.xsd" namespace="http://www.eu-emi.eu/es/2010/12/types" />
+	<xsd:import schemaLocation="GLUE2.xsd" namespace="http://schemas.ogf.org/glue/2009/03/spec_2.0_r1" />
+
+	<!-- getResourceInfo Types -->
+	<xsd:element name="GetResourceInfo">
+		<xsd:complexType />
+	</xsd:element>
+
+	<xsd:element name="GetResourceInfoResponse">
+		<xsd:complexType>
+			 <xsd:sequence>
+				<xsd:element ref="tns:Services">
+				</xsd:element>
+			 </xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="Services">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="glue:ComputingService" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="glue:Service" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- QueryResourceInfo Types -->
+
+
+	<!-- well-known Query Dialects -->
+	<xsd:simpleType name="DefaultQueryDialectsEnumType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="XPATH 1.0" />
+			<xsd:enumeration value="XPATH 2.0" />
+			<xsd:enumeration value="XQUERY 1.0" />
+			<xsd:enumeration value="SQL" />
+			<xsd:enumeration value="SPARQL" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<!-- Enabling other than well-known dialects -->
+	<xsd:simpleType name="ExtendedQueryDialectEnumType">
+		<xsd:union memberTypes="tns:DefaultQueryDialectsEnumType xsd:string" />
+	</xsd:simpleType>
+
+	<!-- An Execution Service MUST support XPATH 1.0 and MAY support additional 
+		query languages such as XQUERY, SQL, SPARQL and custom defined ones (e.g. 
+		python-based). -->
+	<xsd:element name="QueryResourceInfo">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="QueryDialect" type="tns:ExtendedQueryDialectEnumType" />
+				<xsd:element name="QueryExpression" type="tns:QueryExpressionType" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="QueryExpressionType" mixed="true">
+		<xsd:sequence>
+			<xsd:any minOccurs="0" maxOccurs="1" processContents="lax" />
+		</xsd:sequence>		
+	</xsd:complexType>
+
+	<xsd:element name="QueryResourceInfoResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="tns:QueryResourceInfoItem" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="QueryResourceInfoItem">
+		<xsd:complexType mixed="true">
+			<xsd:sequence>
+				<xsd:any namespace="##other" processContents="lax" minOccurs="0" />
+			</xsd:sequence>
+			<xsd:anyAttribute namespace="##other" processContents="lax" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="NotSupportedQueryDialectFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="NotValidQueryStatementFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="UnknownQueryFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="InternalResourceInfoFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="ResourceInfoNotFoundFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:tns="http://www.eu-emi.eu/es/2010/12/activity">
+
+    <wsdl:import namespace="http://www.eu-emi.eu/es/2010/12/activity"
+		 location="ActivityInfo.wsdl" />
+    
+    <wsdl:service name="ActivityInfoService">
+		<wsdl:port name="ActivityInfo" binding="tns:ActivityInfoSoapBinding">
+			<soap:address location="http://localhost:8443/ce-cream-es/services/ActivityInfo" />
+		</wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

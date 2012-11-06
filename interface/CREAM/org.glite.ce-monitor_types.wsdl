@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+	* Copyright (c) 2004 on behalf of the EU EGEE Project:
+	* The European Organization for Nuclear Research (CERN),
+	* Istituto Nazionale di Fisica Nucleare (INFN), Italy
+	* Datamat Spa, Italy
+	* Centre National de la Recherche Scientifique (CNRS), France
+	* CS Systeme d'Information (CSSI), France
+	* Royal Institute of Technology, Center for Parallel Computers (KTH-PDC), Sweden
+	* Universiteit van Amsterdam (UvA), Netherlands
+	* University of Helsinki (UH.HIP), Finland
+	* University of Bergen (UiB), Norway
+	* Council for the Central Laboratory of the Research Councils (CCLRC), United Kingdom
+	*
+	* Authors: Luigi Zangrando (zangrando@pd.infn.it)
+-->
+
+
+
+<wsdl:definitions name="CEMon_Types"
+	xmlns='http://glite.org/ce/monitorapij/types'
+	xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'
+	xmlns:xsd='http://www.w3.org/2001/XMLSchema'
+	xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/'
+	targetNamespace='http://glite.org/ce/monitorapij/types'>
+
+	<wsdl:types>
+
+		<xsd:schema xmlns='http://glite.org/ce/monitorapij/types'
+			targetNamespace='http://glite.org/ce/monitorapij/types'
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+			attributeFormDefault="unqualified">
+
+
+
+			<xsd:complexType name="Dialect">
+				<xsd:sequence>
+					<xsd:element name="Name" type="xsd:string" />
+					<xsd:element name="QueryLanguage" type="xsd:string"
+						minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+			<xsd:complexType name="Topic">
+				<xsd:sequence>
+					<xsd:element name="Name" type="xsd:string" />
+					<xsd:element name="Dialect" type="Dialect" minOccurs="0" maxOccurs="unbounded" />
+					<xsd:element name="visibility" type="xsd:string" minOccurs="0" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+			<xsd:complexType name="TopicArray">
+				<xsd:sequence>
+					<xsd:element name="Topic" type="Topic" minOccurs="0"
+						maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+			<xsd:complexType name="Event">
+				<xsd:sequence>
+					<xsd:element name="ID" type="xsd:int" />
+					<xsd:element name="Timestamp" type="xsd:dateTime" />
+					<xsd:element name="Message" type="xsd:string" minOccurs="1"
+						maxOccurs="unbounded" />
+					<xsd:element name="Producer" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+			<xsd:complexType name="EventArray">
+				<xsd:sequence>
+					<xsd:element name="Event" type="Event" minOccurs="0"
+						maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:complexType>
+			
+
+			<xsd:complexType name="Info">
+				<xsd:sequence>
+					<xsd:element name="interfaceVersion" type="xsd:string" />
+					<xsd:element name="serviceVersion" type="xsd:string" />
+					<xsd:element name="description" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="startupTime" type="xsd:dateTime" />
+					<xsd:element name="property" type="Property" minOccurs="0" maxOccurs="unbounded" />
+					<xsd:element name="Topic" type="Topic" minOccurs="0" maxOccurs="unbounded" />
+					<xsd:element name="Action" type="Action" minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+			<xsd:complexType name="Notification">
+				<xsd:sequence>
+					<xsd:element name="ExpirationTime" type="xsd:dateTime" />
+					<xsd:element name="Topic" type="Topic" />
+					<xsd:element name="Event" type="Event" minOccurs="1" maxOccurs="unbounded" />
+				</xsd:sequence>
+				<xsd:attribute name="ConsumerURL" type="xsd:anyURI" />
+			</xsd:complexType>
+
+
+			<xsd:complexType name="Query">
+				<xsd:sequence>
+					<xsd:element name="Expression" type="xsd:string" />
+					<xsd:element name="QueryLanguage" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+			<xsd:complexType name="Property">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" />
+					<xsd:element name="value" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+			<xsd:complexType name="CEMonResource">
+				<xsd:sequence>
+					<xsd:element name="id" type="xsd:string" minOccurs="0" />
+					<xsd:element name="name" type="xsd:string" minOccurs="0" />
+					<xsd:element name="type" type="xsd:string" minOccurs="0" />
+					<xsd:element name="jarPath" type="xsd:anyURI" minOccurs="0" />
+					<xsd:element name="property" type="Property" minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+			<xsd:complexType name="Action">
+				<xsd:complexContent>
+					<xsd:extension base="CEMonResource">
+						<xsd:sequence>
+							<xsd:element name="doActionWhenQueryIs" type="xsd:boolean" />
+							<xsd:element name="parameter" type="Parameter" minOccurs="0" maxOccurs="unbounded" />
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="Subscription">
+				<xsd:complexContent>
+					<xsd:extension base="CEMonResource">
+						<xsd:sequence>
+					<!--xsd:element name="subscriberId" type="xsd:string" minOccurs="0"/-->
+					        <xsd:element name="MonitorConsumerURL" type="xsd:anyURI" />
+                            <xsd:element name="ExpirationTime" type="xsd:dateTime" minOccurs="0" />
+                            <xsd:element name="Topic" type="Topic" />
+                            <xsd:element name="Policy" type="Policy" />
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+
+
+			<xsd:complexType name="Parameter">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" />
+					<xsd:element name="value" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+
+			<xsd:complexType name="Policy">
+				<xsd:sequence>
+					<xsd:element name="Query" type="Query" minOccurs="0" />
+					<xsd:element name="Action" type="Action" minOccurs="0"
+						maxOccurs="unbounded" />
+					<xsd:element name="Rate" type="xsd:int" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+<!-- 
+
+
+			<xsd:complexType name="Subscription">
+				<xsd:sequence>
+					<xsd:element name="MonitorConsumerURL" type="xsd:anyURI" />
+					<xsd:element name="ExpirationTime" type="xsd:dateTime" minOccurs="0" />
+					<xsd:element name="Topic" type="Topic" />
+					<xsd:element name="Policy" type="Policy" />
+				</xsd:sequence>
+			</xsd:complexType>
+			 -->
+			 
+			 
+
+			<xsd:complexType name="SubscriptionRef">
+				<xsd:sequence>
+					<xsd:element name="SubscriptionID" type="xsd:string" />
+					<xsd:element name="ExpirationTime" type="xsd:dateTime"
+						minOccurs="0" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+			<xsd:complexType name="SubscriptionList">
+				<xsd:sequence>
+					<xsd:element name="subscription" type="Subscription" minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="SubscriptionRefList">
+				<xsd:sequence>
+					<xsd:element name="subscriptionRef" type="SubscriptionRef"
+						minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+
+</wsdl:definitions>
+
+
+

@@ -1,0 +1,926 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+	* Copyright (c) 2004 on behalf of the EU EGEE Project:
+	* The European Organization for Nuclear Research (CERN),
+	* Istituto Nazionale di Fisica Nucleare (INFN), Italy
+	* Datamat Spa, Italy
+	* Centre National de la Recherche Scientifique (CNRS), France
+	* CS Systeme d'Information (CSSI), France
+	* Royal Institute of Technology, Center for Parallel Computers (KTH-PDC), Sweden
+	* Universiteit van Amsterdam (UvA), Netherlands
+	* University of Helsinki (UH.HIP), Finland
+	* University of Bergen (UiB), Norway
+	* Council for the Central Laboratory of the Research Councils (CCLRC), United Kingdom
+	*
+	* Authors: Luigi Zangrando (zangrando@pd.infn.it)
+-->
+
+
+<wsdl:definitions name="CEMonitor"
+	targetNamespace="http://glite.org/ce/monitorapij/ws"
+	xmlns="http://glite.org/ce/monitorapij/ws"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:common_faults="http://glite.org/ce/faults"
+	xmlns:cemon_faults="http://glite.org/ce/monitorapij/faults"
+	xmlns:cemon_types="http://glite.org/ce/monitorapij/types"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<wsdl:import namespace="http://glite.org/ce/monitorapij/faults"
+		location="org.glite.ce-monitor_faults.wsdl" />
+
+	<wsdl:import namespace="http://glite.org/ce/monitorapij/types"
+		location="org.glite.ce-monitor_types.wsdl" />
+
+
+	<wsdl:message name="GetInfo" />
+	<wsdl:message name="GetInfoResponse">
+		<wsdl:documentation>
+			Get an Info class specifying some characteristics of the CEmon. It
+			contains the monitor version, a brief description and the list of
+			supported dialects and topics.
+		</wsdl:documentation>
+		<wsdl:part name="Info" type="cemon_types:Info" />
+	</wsdl:message>
+
+	<wsdl:message name="Subscribe">
+		<wsdl:part name="subscription" type="cemon_types:Subscription" />
+	</wsdl:message>
+
+	<wsdl:message name="SubscribeResponse">
+		<wsdl:part name="SubscriptionRef" type="cemon_types:SubscriptionRef" />
+	</wsdl:message>
+
+	<wsdl:message name="Update">
+		<wsdl:part name="subscription" type="cemon_types:Subscription" />
+	</wsdl:message>
+
+	<wsdl:message name="UpdateResponse">
+		<wsdl:part name="SubscriptionRef" type="cemon_types:SubscriptionRef" />
+	</wsdl:message>
+
+	<wsdl:message name="SubscriptionRefList" />
+		
+	<wsdl:message name="SubscriptionRefListResponse">
+		<wsdl:part name="SubscriptionRefList" type="cemon_types:SubscriptionRefList" />
+	</wsdl:message>
+	
+	<wsdl:message name="SubscriptionList">
+		<wsdl:part name="SubscriptionRefList" type="cemon_types:SubscriptionRefList" />
+	</wsdl:message>
+		
+	<wsdl:message name="SubscriptionListResponse">
+		<wsdl:part name="SubscriptionList" type="cemon_types:SubscriptionList" />
+	</wsdl:message>
+	
+	<wsdl:message name="Unsubscribe">
+		<wsdl:part name="SubscriptionRef" type="cemon_types:SubscriptionRef" />
+	</wsdl:message>
+	
+	<wsdl:message name="UnsubscribeResponse" />
+
+	<wsdl:message name="PauseSubscription">
+		<wsdl:part name="SubscriptionRef" type="cemon_types:SubscriptionRef" />
+	</wsdl:message>
+
+	<wsdl:message name="PauseSubscriptionResponse" />
+
+	<wsdl:message name="ResumeSubscription">
+		<wsdl:part name="SubscriptionRef" type="cemon_types:SubscriptionRef" />
+	</wsdl:message>
+
+	<wsdl:message name="ResumeSubscriptionResponse" />
+
+	<wsdl:message name="GetTopics" />
+
+	<wsdl:message name="GetTopicsResponse">
+		<wsdl:part name="TopicArray" type="cemon_types:TopicArray" />
+	</wsdl:message>
+
+
+	<wsdl:message name="GetTopicEvent">
+		<wsdl:part name="topic" type="cemon_types:Topic"/>
+	</wsdl:message>
+
+	<wsdl:message name="GetTopicEventResponse">
+		<wsdl:part name="EventArray" type="cemon_types:EventArray" />
+	</wsdl:message>
+	
+	<wsdl:message name="GetEvent">
+		<wsdl:part name="Topic" type="cemon_types:Topic"/>
+	</wsdl:message>
+
+	<wsdl:message name="GetEventResponse">
+		<wsdl:part name="Event" type="cemon_types:Event" />
+	</wsdl:message>
+
+	<wsdl:message name="Authentication_Fault">
+		<wsdl:part name="fault" element="common_faults:AuthenticationFault" />
+	</wsdl:message>
+
+	<wsdl:message name="Authorization_Fault">
+		<wsdl:part name="fault" element="common_faults:AuthorizationFault" />
+	</wsdl:message>
+
+	<wsdl:message name="Generic_Fault">
+		<wsdl:documentation>
+			Thrown in a number of other possible
+		</wsdl:documentation>
+		<wsdl:part name="fault" element="common_faults:GenericFault" />
+	</wsdl:message>
+
+	<wsdl:message name="TopicNotSupported_Fault">
+		<wsdl:part name="fault" element="cemon_faults:TopicNotSupportedFault" />
+	</wsdl:message>
+
+	<wsdl:message name="Subscription_Fault">
+		<wsdl:part name="fault" element="cemon_faults:SubscriptionFault" />
+	</wsdl:message>
+
+	<wsdl:message name="SubscriptionNotFound_Fault">
+		<wsdl:part name="fault" element="cemon_faults:SubscriptionNotFoundFault" />
+	</wsdl:message>
+	
+	<wsdl:message name="DialectNotSupported_Fault">
+		<wsdl:part name="fault" element="cemon_faults:DialectNotSupportedFault" />
+	</wsdl:message>
+
+	<wsdl:message name="Ping" />
+
+	<wsdl:message name="PingResponse" />
+
+    <wsdl:message name="Notify">
+       <wsdl:part name="Notification" type="cemon_types:Notification"/>
+    </wsdl:message>
+   
+    <wsdl:message name="NotifyResponse"/>
+
+
+
+
+
+	<wsdl:portType name="CEMonitorPort">
+		<wsdl:documentation>
+			The main portType of CEMonitor. It exposes via Web Service the
+			methods and services offered by CEMonitor.
+		</wsdl:documentation>
+
+		<wsdl:operation name="Ping">
+			<wsdl:documentation>Not yet implemented.</wsdl:documentation>
+			<wsdl:input message="Ping" />
+			<wsdl:output message="PingResponse" />
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="GetInfo">
+			<wsdl:documentation>
+				Get an Info object containing some useful information about the
+				CEMonitor. It contains the version and a brief description of
+				the CEMonitor, and a list of available topics and actions.
+			</wsdl:documentation>
+			<wsdl:input message="GetInfo" />
+			<wsdl:output message="GetInfoResponse">
+				<wsdl:documentation>
+					The Info object containing some useful information about
+					CEMon.
+				</wsdl:documentation>
+			</wsdl:output>
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="Subscribe">
+			<wsdl:documentation>
+				Subscribe for asynchronous notifications related to a specific
+				topic's events.
+			</wsdl:documentation>
+			<wsdl:input message="Subscribe">
+				<wsdl:documentation>
+					The subscription to be performed. It specifies a topic and a
+					policy. CEMon will provide notifications when an event
+					related to the topic occurs following the policy
+					specifications.
+				</wsdl:documentation>
+			</wsdl:input>
+			<wsdl:output message="SubscribeResponse">
+				<wsdl:documentation>
+					A SubscriptionRef object containing a subscription
+					identifying string and its expiration time.
+				</wsdl:documentation>
+			</wsdl:output>
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Subscription_Fault" name="subscriptionFault">
+				<wsdl:documentation>
+					Thrown if the subscription is not correctly specified.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="Update">
+			<wsdl:documentation>
+				Update a subscription.
+			</wsdl:documentation>
+			<wsdl:input message="Update">
+				<wsdl:documentation>
+					The subscription to be updated.
+				</wsdl:documentation>
+			</wsdl:input>
+			<wsdl:output message="UpdateResponse">
+				<wsdl:documentation>
+					A SubscriptionRef object containing a subscription
+					identifying string and its expiration time.
+				</wsdl:documentation>
+			</wsdl:output>
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Subscription_Fault" name="subscriptionFault">
+				<wsdl:documentation>
+					Thrown if the subscription is not correctly specified.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="GetSubscriptionRef">
+			<wsdl:documentation>
+				Subscribe for asynchronous notifications related to a specific
+				topic's events.
+			</wsdl:documentation>
+			<wsdl:input message="SubscriptionRefList" />
+			<wsdl:output message="SubscriptionRefListResponse">
+				<wsdl:documentation>
+					A lis tof SubscriptionRef containing a subscription
+					identifying string and its expiration time.
+				</wsdl:documentation>
+			</wsdl:output>
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetSubscription">
+			<wsdl:documentation>
+				Subscribe for asynchronous notifications related to a specific
+				topic's events.
+			</wsdl:documentation>
+			<wsdl:input message="SubscriptionList" />
+			<wsdl:output message="SubscriptionListResponse">
+				<wsdl:documentation>
+					A lis tof SubscriptionRef containing a subscription
+					identifying string and its expiration time.
+				</wsdl:documentation>
+			</wsdl:output>
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="Unsubscribe">
+			<wsdl:documentation>
+				Unsubscribe a previously created subscription.
+			</wsdl:documentation>
+			<wsdl:input message="Unsubscribe">
+				<wsdl:documentation>
+					The SubscriptionRef previously obtained through a Subscribe
+					operation.
+				</wsdl:documentation>
+			</wsdl:input>
+			<wsdl:output message="UnsubscribeResponse" />
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>			
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="SubscriptionNotFound_Fault" name="subscriptionNotFoundFault">
+				<wsdl:documentation>
+					Thrown in case of subscription not found.
+				</wsdl:documentation>
+			</wsdl:fault>			
+		</wsdl:operation>
+
+		<wsdl:operation name="PauseSubscription">
+			<wsdl:documentation>
+				Stop the asynchronous notification sending relative to the
+				specified subscription.
+			</wsdl:documentation>
+			<wsdl:input message="PauseSubscription">
+				<wsdl:documentation>
+					The SubscriptionRef previously obtained through a Subscribe
+					operation.
+				</wsdl:documentation>
+			</wsdl:input>
+			<wsdl:output message="PauseSubscriptionResponse" />
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>	
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="SubscriptionNotFound_Fault" name="subscriptionNotFoundFault">
+				<wsdl:documentation>
+					Thrown in case of subscription not found.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="ResumeSubscription">
+			<wsdl:documentation>
+				Resume a previously paused subscription.
+			</wsdl:documentation>
+			<wsdl:input message="ResumeSubscription">
+				<wsdl:documentation>
+					The SubscriptionRef previously obtained through a Subscribe
+					operation.
+				</wsdl:documentation>
+			</wsdl:input>
+			<wsdl:output message="ResumeSubscriptionResponse" />
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>	
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="SubscriptionNotFound_Fault" name="subscriptionNotFoundFault">
+				<wsdl:documentation>
+					Thrown in case of subscription not found.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="GetTopics">
+			<wsdl:documentation>
+				Get the topics supported by CEMonitor.
+			</wsdl:documentation>
+			<wsdl:input message="GetTopics" />
+			<wsdl:output message="GetTopicsResponse">
+				<wsdl:documentation>
+					An array containing the all supported topics.
+				</wsdl:documentation>
+			</wsdl:output>
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="GetEvent">
+			<wsdl:documentation>
+				This method is used to obtain the last event relative to the
+				specified topic.
+			</wsdl:documentation>
+			<wsdl:input message="GetEvent">
+				<wsdl:documentation>
+					The topic the searched event is related to.
+				</wsdl:documentation>
+			</wsdl:input>
+			<wsdl:output message="GetEventResponse">
+				<wsdl:documentation>The searched event.</wsdl:documentation>
+			</wsdl:output>
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any other possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="TopicNotSupported_Fault"
+				name="topicNotSupportedFault">
+				<wsdl:documentation>
+					Thrown if specified topic is not supported by the service.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="DialectNotSupported_Fault"
+				name="dialectNotSupportedFault">
+				<wsdl:documentation>
+					The specified topic must specify a valid dialect to properly
+					format the event messages. This exception is thrown if this
+					dialect is not supported by the service.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>		
+		
+		<wsdl:operation name="GetTopicEvent">
+			<wsdl:documentation>
+				This method is used to obtain the last event relative to the
+				specified topic.
+			</wsdl:documentation>
+			<wsdl:input message="GetTopicEvent">
+				<wsdl:documentation>
+					The topic the searched event is related to.
+				</wsdl:documentation>
+			</wsdl:input>
+			<wsdl:output message="GetTopicEventResponse">
+				<wsdl:documentation>The searched event.</wsdl:documentation>
+			</wsdl:output>
+			<wsdl:fault message="Generic_Fault" name="genericFault">
+				<wsdl:documentation>
+					Thrown if any other possible error occurs.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="TopicNotSupported_Fault"
+				name="topicNotSupportedFault">
+				<wsdl:documentation>
+					Thrown if specified topic is not supported by the service.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="DialectNotSupported_Fault"
+				name="dialectNotSupportedFault">
+				<wsdl:documentation>
+					The specified topic must specify a valid dialect to properly
+					format the event messages. This exception is thrown if this
+					dialect is not supported by the service.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authentication_Fault"
+				name="authenticationFault">
+				<wsdl:documentation>
+					Thrown in case of authentication problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault message="Authorization_Fault"
+				name="authorizationFault">
+				<wsdl:documentation>
+					Thrown in case of authorization problems.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>		
+        <wsdl:operation name="Notify">
+            <wsdl:documentation>This operation is not yet implemented. It is thought to create a jerarhy of CEMonitors.</wsdl:documentation>
+            <wsdl:input message="Notify" name="notify"/>
+            <wsdl:output message="NotifyResponse" name="notifyResponse"/>
+        </wsdl:operation>    
+	</wsdl:portType>
+
+
+
+	<wsdl:binding name="CEMonitorBinding" type="CEMonitorPort">
+		<soap:binding style="rpc"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="Ping">
+			<soap:operation soapAction="http://glite.org/ce/monitorapij/ws/Ping"
+				style="rpc" />
+			<wsdl:input>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:output>
+			<wsdl:fault name="authenticationFault">
+				<soap:fault use="literal" name="authenticationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authorizationFault">
+				<soap:fault use="literal" name="authorizationFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="GetInfo">
+			<soap:operation
+				soapAction="http://glite.org/ce/monitorapij/ws/GetInfo" style="rpc" />
+			<wsdl:input>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:output>
+			<wsdl:fault name="genericFault">
+				<soap:fault use="literal" name="genericFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authenticationFault">
+				<soap:fault use="literal" name="authenticationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authorizationFault">
+				<soap:fault use="literal" name="authorizationFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="Subscribe">
+			<soap:operation
+				soapAction="http://glite.org/ce/monitorapij/ws/Subscribe" style="rpc" />
+			<wsdl:input>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:output>
+			<wsdl:fault name="genericFault">
+				<soap:fault use="literal" name="genericFault" />
+			</wsdl:fault>
+			<wsdl:fault name="subscriptionFault">
+				<soap:fault use="literal" name="subscriptionFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authenticationFault">
+				<soap:fault use="literal" name="authenticationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authorizationFault">
+				<soap:fault use="literal" name="authorizationFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="Unsubscribe">
+			<soap:operation
+				soapAction="http://glite.org/ce/monitorapij/ws/Unubscribe" style="rpc" />
+			<wsdl:input>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:output>
+			<wsdl:fault name="genericFault">
+				<soap:fault use="literal" name="genericFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authenticationFault">
+				<soap:fault use="literal" name="authenticationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authorizationFault">
+				<soap:fault use="literal" name="authorizationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="subscriptionNotFoundFault">
+				<soap:fault use="literal" name="subscriptionNotFoundFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="PauseSubscription">
+			<soap:operation
+				soapAction="http://glite.org/ce/monitorapij/ws/PauseSubscription"
+				style="rpc" />
+			<wsdl:input>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:output>
+			<wsdl:fault name="genericFault">
+				<soap:fault use="literal" name="genericFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authenticationFault">
+				<soap:fault use="literal" name="authenticationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authorizationFault">
+				<soap:fault use="literal" name="authorizationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="subscriptionNotFoundFault">
+				<soap:fault use="literal" name="subscriptionNotFoundFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="ResumeSubscription">
+			<soap:operation
+				soapAction="http://glite.org/ce/monitorapij/ws/ResumeSubscription"
+				style="rpc" />
+			<wsdl:input>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:output>
+			<wsdl:fault name="genericFault">
+				<soap:fault use="literal" name="genericFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authenticationFault">
+				<soap:fault use="literal" name="authenticationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authorizationFault">
+				<soap:fault use="literal" name="authorizationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="subscriptionNotFoundFault">
+				<soap:fault use="literal" name="subscriptionNotFoundFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="GetTopics">
+			<soap:operation
+				soapAction="http://glite.org/ce/monitorapij/ws/GetTopics" style="rpc" />
+			<wsdl:input>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" />
+			</wsdl:output>
+			<wsdl:fault name="genericFault">
+				<soap:fault use="literal" name="genericFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authenticationFault">
+				<soap:fault use="literal" name="authenticationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authorizationFault">
+				<soap:fault use="literal" name="authorizationFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="GetEvent">
+			<soap:operation
+				soapAction="http://glite.org/ce/monitorapij/ws/GetEvent" style="rpc" />
+			<wsdl:input>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" parts="Topic" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" parts="Event" />
+			</wsdl:output>
+			<wsdl:fault name="genericFault">
+				<soap:fault use="literal" name="genericFault" />
+			</wsdl:fault>
+			<wsdl:fault name="topicNotSupportedFault">
+				<soap:fault use="literal" name="topicNotSupportedFault" />
+			</wsdl:fault>
+			<wsdl:fault name="dialectNotSupportedFault">
+				<soap:fault use="literal" name="dialectNotSupportedFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authenticationFault">
+				<soap:fault use="literal" name="authenticationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authorizationFault">
+				<soap:fault use="literal" name="authorizationFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetTopicEvent">
+			<soap:operation
+				soapAction="http://glite.org/ce/monitorapij/ws/GetTopicEvent" style="rpc" />
+			<wsdl:input>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" parts="topic" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws" parts="EventArray" />
+			</wsdl:output>
+			<wsdl:fault name="genericFault">
+				<soap:fault use="literal" name="genericFault" />
+			</wsdl:fault>
+			<wsdl:fault name="topicNotSupportedFault">
+				<soap:fault use="literal" name="topicNotSupportedFault" />
+			</wsdl:fault>
+			<wsdl:fault name="dialectNotSupportedFault">
+				<soap:fault use="literal" name="dialectNotSupportedFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authenticationFault">
+				<soap:fault use="literal" name="authenticationFault" />
+			</wsdl:fault>
+			<wsdl:fault name="authorizationFault">
+				<soap:fault use="literal" name="authorizationFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+        <wsdl:operation name="GetSubscriptionRef">
+        	<soap:operation soapAction="http://glite.org/ce/monitorapij/ws/GetSubscriptionList"/>
+        	<wsdl:input>
+        		<soap:body use="literal" namespace="http://glite.org/ce/monitorapij/ws"/>
+        	</wsdl:input>
+        	<wsdl:output>
+        		<soap:body use="literal" namespace="http://glite.org/ce/monitorapij/ws"/>
+        	</wsdl:output>
+        	<wsdl:fault name="genericFault">
+        		<soap:fault namespace="http://glite.org/ce/monitorapij/ws" use="literal" name="genericFault"/>
+        	</wsdl:fault>
+        	<wsdl:fault name="authenticationFault">
+        		<soap:fault namespace="http://glite.org/ce/monitorapij/ws" use="literal" name="authenticationFault"/>
+        	</wsdl:fault>
+        	<wsdl:fault name="authorizationFault">
+        		<soap:fault namespace="http://glite.org/ce/monitorapij/ws" use="literal" name="authorizationFault"/>
+        	</wsdl:fault>
+        </wsdl:operation>
+        
+        <wsdl:operation name="GetSubscription">
+        	<soap:operation soapAction="http://glite.org/ce/monitorapij/ws/GetSubscriptionInfo"/>
+	        <wsdl:input>
+	        	<soap:body use="literal" namespace="http://glite.org/ce/monitorapij/ws"/>
+	        </wsdl:input>
+	        <wsdl:output>
+	        	<soap:body use="literal" namespace="http://glite.org/ce/monitorapij/ws"/>
+	        </wsdl:output>
+        	<wsdl:fault name="genericFault">
+        		<soap:fault namespace="http://glite.org/ce/monitorapij/ws" use="literal" name="genericFault"/>
+        	</wsdl:fault>
+        	<wsdl:fault name="authenticationFault">
+        		<soap:fault namespace="http://glite.org/ce/monitorapij/ws" use="literal" name="authenticationFault"/>
+        	</wsdl:fault>
+        	<wsdl:fault name="authorizationFault">
+        		<soap:fault namespace="http://glite.org/ce/monitorapij/ws" use="literal" name="authorizationFault"/>
+        	</wsdl:fault>
+        </wsdl:operation>	        
+        <wsdl:operation name="Update">
+        	<soap:operation soapAction="http://glite.org/ce/monitorapij/ws/Update"/>
+        	<wsdl:input>
+        		<soap:body use="literal" namespace="http://glite.org/ce/monitorapij/ws"/>
+        	</wsdl:input>
+        	<wsdl:output>
+        		<soap:body use="literal" namespace="http://glite.org/ce/monitorapij/ws"/>
+        	</wsdl:output>
+        	<wsdl:fault name="genericFault">
+        		<soap:fault namespace="http://glite.org/ce/monitorapij/ws" use="literal" name="genericFault"/>
+        	</wsdl:fault>
+        	<wsdl:fault name="subscriptionFault">
+        		<soap:fault namespace="http://glite.org/ce/monitorapij/ws" use="literal" name="subscriptionFault"/>
+        	</wsdl:fault>
+        	<wsdl:fault name="authenticationFault">
+        		<soap:fault namespace="http://glite.org/ce/monitorapij/ws" use="literal" name="authenticationFault"/>
+        	</wsdl:fault>
+        	<wsdl:fault name="authorizationFault">
+        		<soap:fault namespace="http://glite.org/ce/monitorapij/ws" use="literal" name="authorizationFault"/>
+        	</wsdl:fault>
+       	</wsdl:operation>
+       	   	
+      <wsdl:operation name="Notify">
+            <soap:operation soapAction="http://glite.org/ce/monitorapij/ws/Notify"></soap:operation>
+            <wsdl:input name="notify">
+                <soap:body use="literal" namespace="http://glite.org/ce/monitorapij/ws"></soap:body>
+            </wsdl:input>
+         <wsdl:output name="notifyResponse">
+                <soap:body use="literal" namespace="http://glite.org/ce/monitorapij/ws"></soap:body>
+            </wsdl:output>
+      </wsdl:operation>
+
+       	   	
+    </wsdl:binding>
+
+
+
+	<wsdl:service name="CEMonitor">
+		<wsdl:port name="CEMonitor" binding="CEMonitorBinding">
+			<soap:address
+				location="http://localhost:8080/axis/services/CEMonitor" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

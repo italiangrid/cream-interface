@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.eu-emi.eu/es/2010/12/types"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.eu-emi.eu/es/2010/12/types"	
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<!-- This schema document contains the reusable complex and simple types 
+		used within external EMI-ES wsdls. -->
+
+	<xsd:element name="ActivityID" type="xsd:string" />
+
+	<xsd:element name="ActivityMgmtEndpointURL" type="xsd:anyURI">
+		<xsd:annotation>
+			<xsd:documentation>
+				This element identifies the URI of ActivityManagement port type.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:element name="ResourceInfoEndpointURL" type="xsd:anyURI">
+		<xsd:annotation>
+			<xsd:documentation>
+				This element identifies the URI of ResourceInfo port type.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+
+
+	<xsd:element name="ActivityStatus">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Status" type="tns:ActivityStatusState" />
+				<xsd:element name="Attribute" type="tns:ActivityStatusAttribute" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="Timestamp" type="xsd:dateTime" />
+				<xsd:element name="Description" type="xsd:string" minOccurs="0" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- SIMPLE TYPES -->
+	<xsd:simpleType name="ActivityStatusState">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="accepted" />
+			<xsd:enumeration value="preprocessing" />
+			<xsd:enumeration value="processing" />
+			<xsd:enumeration value="processing-accepting" />
+			<xsd:enumeration value="processing-queued" />
+			<xsd:enumeration value="processing-running" />
+			<xsd:enumeration value="postprocessing" />
+			<xsd:enumeration value="terminal" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="ActivityStatusAttribute">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="validating" />
+			<xsd:enumeration value="server-paused" />
+			<xsd:enumeration value="client-paused" />
+			<xsd:enumeration value="client-stagein-possible" />
+			<xsd:enumeration value="client-stageout-possible" />
+			<xsd:enumeration value="provisioning" />
+			<xsd:enumeration value="deprovisioning" />
+			<xsd:enumeration value="server-stagein" />
+			<xsd:enumeration value="server-stageout" />
+			<xsd:enumeration value="batch-suspend" />
+			<xsd:enumeration value="app-running" />
+			<xsd:enumeration value="preprocessing-cancel" />
+			<xsd:enumeration value="processing-cancel" />
+			<xsd:enumeration value="postprocessing-cancel" />
+			<xsd:enumeration value="validation-failure" />
+			<xsd:enumeration value="preprocessing-failure" />
+			<xsd:enumeration value="processing-failure" />
+			<xsd:enumeration value="postprocessing-failure" />
+			<xsd:enumeration value="app-failure" />
+			<xsd:enumeration value="expired" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- Faults -->
+	<xsd:element name="InternalBaseFault" type="tns:InternalBaseFault_Type" />
+
+	<xsd:complexType name="InternalBaseFault_Type">
+		<xsd:sequence>
+			<xsd:element name="Message" type="xsd:string" minOccurs="1" />
+			<xsd:element name="Timestamp" type="xsd:dateTime"
+				minOccurs="0" />
+			<xsd:element name="Description" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="FailureCode" type="xsd:int" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="VectorLimitExceededFault">
+		<xsd:annotation>
+			<xsd:documentation>
+				Thrown when the number of submitted activities is too large
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="tns:InternalBaseFault_Type">
+					<xsd:sequence>
+						<xsd:element name="ServerLimit" type="xsd:unsignedLong"
+							minOccurs="1" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="AccessControlFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="tns:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ResourceInfo" targetNamespace="http://www.eu-emi.eu/es/2010/12/resourceinfo"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://www.eu-emi.eu/es/2010/12/resourceinfo"
+    xmlns:types="http://www.eu-emi.eu/es/2010/12/resourceinfo/types"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:esmain="http://www.eu-emi.eu/es/2010/12/types">
+
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.eu-emi.eu/es/2010/12/resourceinfo">
+            <xsd:import schemaLocation="ResourceInfo.xsd" namespace="http://www.eu-emi.eu/es/2010/12/resourceinfo/types" />
+            <xsd:import schemaLocation="es-main.xsd" namespace="http://www.eu-emi.eu/es/2010/12/types" />
+        </xsd:schema>
+    </wsdl:types>
+
+    <!-- In/Out Messages -->
+    <wsdl:message name="getResourceInfoRequest">
+        <wsdl:part name="request" element="types:GetResourceInfo" />
+    </wsdl:message>
+    <wsdl:message name="getResourceInfoResponse">
+        <wsdl:part name="response" element="types:GetResourceInfoResponse" />
+    </wsdl:message>
+    <wsdl:message name="queryResourceInfoRequest">
+        <wsdl:part name="request" element="types:QueryResourceInfo" />
+    </wsdl:message>
+    <wsdl:message name="queryResourceInfoResponse">
+        <wsdl:part name="response" element="types:QueryResourceInfoResponse" />
+    </wsdl:message>
+
+    <!-- Faults Messages -->
+    <wsdl:message name="InternalResourceInfoFault">
+        <wsdl:part name="fault" element="types:InternalResourceInfoFault" />
+    </wsdl:message>
+    <wsdl:message name="ResourceInfoNotFoundFault">
+        <wsdl:part name="fault" element="types:ResourceInfoNotFoundFault" />
+    </wsdl:message>
+    <wsdl:message name="NotSupportedQueryDialectFault">
+        <wsdl:part name="fault" element="types:NotSupportedQueryDialectFault" />
+    </wsdl:message>
+    <wsdl:message name="NotValidQueryStatementFault">
+        <wsdl:part name="fault" element="types:NotValidQueryStatementFault" />
+    </wsdl:message>
+    <wsdl:message name="UnknownQueryFault">
+        <wsdl:part name="fault" element="types:UnknownQueryFault" />
+    </wsdl:message>
+    <wsdl:message name="InternalBaseFault">
+        <wsdl:part name="fault" element="esmain:InternalBaseFault" />
+    </wsdl:message>
+    <wsdl:message name="VectorLimitExceededFault">
+        <wsdl:part name="fault" element="esmain:VectorLimitExceededFault" />
+    </wsdl:message>
+    <wsdl:message name="AccessControlFault">
+        <wsdl:part name="fault" element="esmain:AccessControlFault" />
+    </wsdl:message>
+
+    <!-- PortType -->
+    <wsdl:portType name="ResourceInfo">
+        <wsdl:operation name="GetResourceInfo">
+            <wsdl:input message="tns:getResourceInfoRequest" />
+            <wsdl:output message="tns:getResourceInfoResponse" />
+            <wsdl:fault name="InternalResourceInfoFault" message="tns:InternalResourceInfoFault" />
+            <wsdl:fault name="ResourceInfoNotFoundFault" message="tns:ResourceInfoNotFoundFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+        <wsdl:operation name="QueryResourceInfo">
+            <wsdl:input message="tns:queryResourceInfoRequest" />
+            <wsdl:output message="tns:queryResourceInfoResponse" />
+            <wsdl:fault name="NotSupportedQueryDialectFault" message="tns:NotSupportedQueryDialectFault" />
+            <wsdl:fault name="NotValidQueryStatementFault" message="tns:NotValidQueryStatementFault" />
+            <wsdl:fault name="UnknownQueryFault" message="tns:UnknownQueryFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <!-- Binding -->
+    <wsdl:binding type="tns:ResourceInfo" name="ResourceInfoSoapBinding">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+            style="document" />
+        <wsdl:operation name="GetResourceInfo">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="InternalResourceInfoFault">
+                <soap:fault use="literal" name="InternalResourceInfoFault" />
+            </wsdl:fault>
+            <wsdl:fault name="ResourceInfoNotFoundFault">
+                <soap:fault use="literal" name="ResourceInfoNotFoundFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="QueryResourceInfo">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="NotSupportedQueryDialectFault">
+                <soap:fault use="literal" name="NotSupportedQueryDialectFault" />
+            </wsdl:fault>
+            <wsdl:fault name="NotValidQueryStatementFault">
+                <soap:fault use="literal" name="NotValidQueryStatementFault" />
+            </wsdl:fault>
+            <wsdl:fault name="UnknownQueryFault">
+                <soap:fault use="literal" name="UnknownQueryFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>
