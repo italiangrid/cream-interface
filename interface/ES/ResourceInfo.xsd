@@ -102,14 +102,6 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="UnknownQueryFault">
-		<xsd:complexType>
-			<xsd:complexContent>
-				<xsd:extension base="esmain:InternalBaseFault_Type" />
-			</xsd:complexContent>
-		</xsd:complexType>
-	</xsd:element>
-
 	<xsd:element name="InternalResourceInfoFault">
 		<xsd:complexType>
 			<xsd:complexContent>

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Version 1.0 of GridSite 2.1.0 -->
 <!--
  Copyright (c) Members of the EGEE Collaboration. 2004. See
  http://www.eu-egee.org/partners/ for details on the copyright holders.
@@ -16,17 +15,40 @@
  License for the specific language governing permissions and limitations under
  the License.
 -->
+
+<!--
+Change log:
+  v2.1
+    o  Updated targetnamespace to be consistent with DocRPC WSDL.
+
+    o  Updated one operation name from getNewProxyRequest to getNewProxyReq.
+       This is a work-around for undesirable behaviour in Axis-2 if the
+       operation name is different from the simple name of the XML root-element.
+
+  v2.0
+    o  Rewritten WSDL as wrapped Document Literal form.  This provides
+       backwards compatible with clients and servers that use v1.0 of the
+       WSDL.
+
+  v1.0
+    o  Initial version of WSDL with most operations using the Document-RPC
+       form but with one method using the Document Literal form.  This version
+       of the WSDL is available from:
+
+           http://glite.cvs.cern.ch:8180/cgi-bin/glite.cgi/org.glite.security.delegation-interface/interface/wsdl/www.gridsite.org-delegation-2.0.0.wsdl?rev=HEAD
+
+-->
 <wsdl:definitions
-    targetNamespace="http://www.gridsite.org/namespaces/delegation-21"
+    targetNamespace="http://www.gridsite.org/namespaces/delegation-2"
     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
     xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
-    xmlns:tns="http://www.gridsite.org/namespaces/delegation-21"
+    xmlns:tns="http://www.gridsite.org/namespaces/delegation-2"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <wsdl:types>
     <xsd:schema
 	attributeFormDefault="unqualified"
 	elementFormDefault="qualified"
-	targetNamespace="http://www.gridsite.org/namespaces/delegation-21">
+	targetNamespace="http://www.gridsite.org/namespaces/delegation-2">
 
       <!-- Elements used for requests -->
 
@@ -442,7 +464,7 @@
          </wsdl:fault>
       </wsdl:operation>
 
-      <wsdl:operation name="getNewProxyRequest">
+      <wsdl:operation name="getNewProxyReq">
          <wsdl:documentation>
             <para>
                 Starts the delegation procedure by asking for a certificate
@@ -675,7 +697,7 @@
          </wsdl:fault>
       </wsdl:operation>
 
-      <wsdl:operation name="getNewProxyRequest">
+      <wsdl:operation name="getNewProxyReq">
          <wsdlsoap:operation soapAction=""/>
          <wsdl:input name="getNewProxyReqRequest">
             <wsdlsoap:body use="literal"/>
