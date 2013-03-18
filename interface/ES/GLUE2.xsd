@@ -133,7 +133,7 @@
                     <element name="Location" type="glue:Location_t" minOccurs="0" maxOccurs="1"/>
                     <element name="Contact" type="glue:Contact_t" minOccurs="0" maxOccurs="unbounded"/>
                 </sequence>
-                <attribute name="BaseType" fixed="Domain" use="required"/>
+                <attribute name="BaseType" fixed="Domain" use="required" type="string"/>
             </extension>
         </complexContent>
     </complexType>
@@ -178,7 +178,7 @@
                     <element ref="glue:Location" minOccurs="0" maxOccurs="1"/>
                     <element ref="glue:Contact" minOccurs="0" maxOccurs="unbounded"/>
                 </sequence>
-                <attribute name="BaseType" fixed="Service" use="required"/>
+                <attribute name="BaseType" fixed="Service" use="required" type="string"/>
             </extension>
         </complexContent>
     </complexType>
@@ -229,7 +229,7 @@
                     <element name="DowntimeInfo" type="string" minOccurs="0" maxOccurs="1"/>
                     <element name="AccessPolicy" type="glue:AccessPolicy_t" minOccurs="0" maxOccurs="unbounded"/>
                 </sequence>
-                <attribute name="BaseType" fixed="Endpoint" use="required"/>
+                <attribute name="BaseType" fixed="Endpoint" use="required" type="string"/>
             </extension>
         </complexContent>
     </complexType>
@@ -257,7 +257,7 @@
                     <element name="Description" type="string" minOccurs="0" maxOccurs="1"/>
                     <element name="MappingPolicy" type="glue:MappingPolicy_t" minOccurs="0" maxOccurs="unbounded"/>
                 </sequence>
-                <attribute name="BaseType" fixed="Share" use="required"/>
+                <attribute name="BaseType" fixed="Share" use="required" type="string"/>
             </extension>
         </complexContent>
     </complexType>
@@ -268,7 +268,7 @@
         <complexContent>
             <extension base="glue:Entity_t">
                 <sequence> </sequence>
-                <attribute name="BaseType" fixed="Manager" use="required"/>
+                <attribute name="BaseType" fixed="Manager" use="required" type="string"/>
             </extension>
         </complexContent>
     </complexType>
@@ -277,7 +277,7 @@
         <complexContent>
             <extension base="glue:Entity_t">
                 <sequence> </sequence>
-                <attribute name="BaseType" fixed="Resource" use="required"/>
+                <attribute name="BaseType" fixed="Resource" use="required" type="string"/>
             </extension>
         </complexContent>
     </complexType>
@@ -305,7 +305,7 @@
         <complexContent>
             <extension base="glue:Entity_t">
                 <sequence> </sequence>
-                <attribute name="BaseType" fixed="Activity" use="required"/>
+                <attribute name="BaseType" fixed="Activity" use="required" type="string"/>
             </extension>
         </complexContent>
     </complexType>
@@ -341,7 +341,7 @@
                         </complexType>
                     </element>
                 </sequence>
-                <attribute name="BaseType" fixed="Policy" use="required"/>
+                <attribute name="BaseType" fixed="Policy" use="required" type="string"/>
             </extension>
         </complexContent>
     </complexType>
