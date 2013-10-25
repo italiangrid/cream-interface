@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:tns="http://www.eu-emi.eu/es/2010/12/resourceinfo">
+
+    <wsdl:import namespace="http://www.eu-emi.eu/es/2010/12/resourceinfo"
+         location="ResourceInfo.wsdl" />
+    
+    <wsdl:service name="ResourceInfoService">
+		<wsdl:port name="ResourceInfo" binding="tns:ResourceInfoSoapBinding">
+			<soap:address location="http://localhost:8443/ce-cream-es/services/ResourceInfo" />
+		</wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

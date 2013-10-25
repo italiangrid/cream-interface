@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ActivityCreation" targetNamespace="http://www.eu-emi.eu/es/2010/12/creation"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://www.eu-emi.eu/es/2010/12/creation"
+    xmlns:types="http://www.eu-emi.eu/es/2010/12/creation/types"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:esmain="http://www.eu-emi.eu/es/2010/12/types">
+    
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.eu-emi.eu/es/2010/12/creation">
+            <xsd:import schemaLocation="ActivityCreation.xsd" namespace="http://www.eu-emi.eu/es/2010/12/creation/types" />
+            <xsd:import schemaLocation="es-main.xsd" namespace="http://www.eu-emi.eu/es/2010/12/types" />
+        </xsd:schema>
+    </wsdl:types>
+    
+    <!-- In/Out Messages -->
+    <wsdl:message name="createActivityRequest">
+        <wsdl:part name="request" element="types:CreateActivity" />
+    </wsdl:message>
+    
+    <wsdl:message name="createActivityResponse">
+        <wsdl:part name="response" element="types:CreateActivityResponse" />
+    </wsdl:message>
+    
+    <!-- Faults -->
+    <wsdl:message name="VectorLimitExceededFault">
+        <wsdl:part name="fault" element="esmain:VectorLimitExceededFault" />
+    </wsdl:message>
+
+    <wsdl:message name="AccessControlFault">
+        <wsdl:part name="fault" element="esmain:AccessControlFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="InternalBaseFault">
+        <wsdl:part name="fault" element="esmain:InternalBaseFault" />
+    </wsdl:message>
+    
+    <!-- Creation Port Type -->
+    <wsdl:portType name="ActivityCreation">
+        <wsdl:operation name="CreateActivity">
+            <wsdl:input name="CreateActivityRequest" message="tns:createActivityRequest" />
+            <wsdl:output name="CreateActivityResponse" message="tns:createActivityResponse" />
+            <wsdl:fault name="VectorLimitExceededFault" message="tns:VectorLimitExceededFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    <!-- Creation Binding -->
+    <wsdl:binding type="tns:ActivityCreation" name="ActivityCreationSoapBinding">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+        <wsdl:operation name="CreateActivity">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="VectorLimitExceededFault">
+                <soap:fault use="literal" name="VectorLimitExceededFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+
+</wsdl:definitions>
+

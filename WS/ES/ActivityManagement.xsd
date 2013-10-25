@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.eu-emi.eu/es/2010/12/activitymanagement/types"
+    xmlns:tns="http://www.eu-emi.eu/es/2010/12/activitymanagement/types" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:esmain="http://www.eu-emi.eu/es/2010/12/types"
+    xmlns:activity="http://www.eu-emi.eu/es/2010/12/activity/types"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xsd:import schemaLocation="es-main.xsd" namespace="http://www.eu-emi.eu/es/2010/12/types" />
+    <xsd:import schemaLocation="ActivityInfo.xsd" namespace="http://www.eu-emi.eu/es/2010/12/activity/types" />
+    
+    <!-- Operation's Response definition -->
+    <xsd:element name="PauseActivityResponseItem">
+        <xsd:annotation>
+            <xsd:documentation>
+                A generic response item from asynchronous operations. It consists of the activityID,
+               and either an (optional) estimated time for completion of the async operation OR a fault.            
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" />
+                <xsd:choice>
+                    <xsd:element name="EstimatedTime" type="xsd:unsignedLong" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Estimated time for completion of the asynchronous operation. 
+                                If set to "0", the operation has already been completed.
+                                If undefined, the estimated time is not known.            
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element ref="esmain:InternalBaseFault"/>
+                    <xsd:element ref="activity:OperationNotPossibleFault" />
+                    <xsd:element ref="activity:OperationNotAllowedFault" />
+                    <xsd:element ref="activity:ActivityNotFoundFault" />
+                    <xsd:element ref="esmain:AccessControlFault" />
+                </xsd:choice>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="ResumeActivityResponseItem">
+        <xsd:annotation>
+            <xsd:documentation>
+                A generic response item from asynchronous operations. It consists of the activityID,
+               and either an (optional) estimated time for completion of the async operation OR a fault.            
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" />
+                <xsd:choice>
+                    <xsd:element name="EstimatedTime" type="xsd:unsignedLong" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Estimated time for completion of the asynchronous operation. 
+                                If set to "0", the operation has already been completed.
+                                If undefined, the estimated time is not known.            
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element ref="esmain:InternalBaseFault"/>
+                    <xsd:element ref="activity:OperationNotPossibleFault" />
+                    <xsd:element ref="activity:OperationNotAllowedFault" />
+                    <xsd:element ref="activity:ActivityNotFoundFault" />
+                    <xsd:element ref="esmain:AccessControlFault" />
+                </xsd:choice>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="CancelActivityResponseItem">
+        <xsd:annotation>
+            <xsd:documentation>
+                A generic response item from asynchronous operations. It consists of the activityID,
+               and either an (optional) estimated time for completion of the async operation OR a fault.            
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" />
+                <xsd:choice>
+                    <xsd:element name="EstimatedTime" type="xsd:unsignedLong" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Estimated time for completion of the asynchronous operation. 
+                                If set to "0", the operation has already been completed.
+                                If undefined, the estimated time is not known.            
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element ref="esmain:InternalBaseFault"/>
+                    <xsd:element ref="activity:OperationNotPossibleFault" />
+                    <xsd:element ref="activity:OperationNotAllowedFault" />
+                    <xsd:element ref="activity:ActivityNotFoundFault" />
+                    <xsd:element ref="esmain:AccessControlFault" />
+                </xsd:choice>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="WipeActivityResponseItem">
+        <xsd:annotation>
+            <xsd:documentation>
+                A generic response item from asynchronous operations. It consists of the activityID,
+               and either an (optional) estimated time for completion of the async operation OR a fault.            
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" />
+                <xsd:choice>
+                    <xsd:element name="EstimatedTime" type="xsd:unsignedLong" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Estimated time for completion of the asynchronous operation. 
+                                If set to "0", the operation has already been completed.
+                                If undefined, the estimated time is not known.            
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element ref="esmain:InternalBaseFault"/>
+                    <xsd:element ref="activity:OperationNotPossibleFault" />
+                    <xsd:element ref="activity:OperationNotAllowedFault" />
+                    <xsd:element ref="activity:ActivityNotFoundFault" />
+                    <xsd:element ref="esmain:AccessControlFault" />
+                </xsd:choice>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="RestartActivityResponseItem">
+        <xsd:annotation>
+            <xsd:documentation>
+                A generic response item from asynchronous operations. It consists of the activityID,
+               and either an (optional) estimated time for completion of the async operation OR a fault.            
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" />
+                <xsd:choice>
+                    <xsd:element name="EstimatedTime" type="xsd:unsignedLong" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Estimated time for completion of the asynchronous operation. 
+                                If set to "0", the operation has already been completed.
+                                If undefined, the estimated time is not known.            
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element ref="esmain:InternalBaseFault"/>
+                    <xsd:element ref="activity:OperationNotPossibleFault" />
+                    <xsd:element ref="activity:OperationNotAllowedFault" />
+                    <xsd:element ref="activity:ActivityNotFoundFault" />
+                    <xsd:element ref="esmain:AccessControlFault" />
+                </xsd:choice>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="NotifyResponseItem">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" />
+                <xsd:choice>
+                	<!-- TODO: what should be contained in the acknowledgement??? -->
+                	<xsd:element name="Acknowledgement" type="xsd:string" />
+                	<xsd:element ref="activity:OperationNotPossibleFault" />
+                	<xsd:element ref="activity:OperationNotAllowedFault" />
+                        <xsd:element ref="activity:InternalNotificationFault" />
+                    <xsd:element ref="activity:ActivityNotFoundFault" />
+                	<xsd:element ref="esmain:AccessControlFault" />
+                	<xsd:element ref="esmain:InternalBaseFault" />
+                </xsd:choice>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="CancelActivity">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="CancelActivityResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="tns:CancelActivityResponseItem" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="PauseActivity">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="PauseActivityResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="tns:PauseActivityResponseItem" minOccurs="1" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="ResumeActivity">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="ResumeActivityResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="tns:ResumeActivityResponseItem" minOccurs="1" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+        
+    <xsd:element name="WipeActivity">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="WipeActivityResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="tns:WipeActivityResponseItem" minOccurs="1" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    
+    <!-- 
+        Notify Service
+     -->
+    <xsd:element name="NotifyService">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="tns:NotifyRequestItem" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="NotifyServiceResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="tns:NotifyResponseItem" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:simpleType name="NotifyMessageType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="client-datapull-done"/>
+            <xsd:enumeration value="client-datapush-done"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:element name="NotifyRequestItem">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" />
+                <xsd:element name="NotifyMessage" type="tns:NotifyMessageType"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>    
+
+
+    <!-- 
+        Restart Activity 
+    -->
+    <xsd:element name="RestartActivity">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="esmain:ActivityID" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="RestartActivityResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="tns:RestartActivityResponseItem" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

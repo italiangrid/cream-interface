@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions name="ActivityManagement" targetNamespace="http://www.eu-emi.eu/es/2010/12/activitymanagement"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://www.eu-emi.eu/es/2010/12/activitymanagement"
+    xmlns:types="http://www.eu-emi.eu/es/2010/12/activitymanagement/types"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:esmain="http://www.eu-emi.eu/es/2010/12/types"
+    xmlns:activity="http://www.eu-emi.eu/es/2010/12/activity/types">
+    
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.eu-emi.eu/es/2010/12/activitymanagement">
+            <xsd:import schemaLocation="ActivityManagement.xsd" namespace="http://www.eu-emi.eu/es/2010/12/activitymanagement/types" />
+            <xsd:import schemaLocation="es-main.xsd" namespace="http://www.eu-emi.eu/es/2010/12/types" />
+            <xsd:import schemaLocation="ActivityInfo.xsd" namespace="http://www.eu-emi.eu/es/2010/12/activity/types" />
+        </xsd:schema>
+    </wsdl:types>
+    
+    <!-- Messages -->
+    <wsdl:message name="pauseActivityRequest">
+        <wsdl:part name="request" element="types:PauseActivity" />
+    </wsdl:message>
+    
+    <wsdl:message name="pauseActivityResponse">
+        <wsdl:part name="response" element="types:PauseActivityResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="resumeActivityRequest">
+        <wsdl:part name="request" element="types:ResumeActivity" />
+    </wsdl:message>
+    
+    <wsdl:message name="resumeActivityResponse">
+        <wsdl:part name="response" element="types:ResumeActivityResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="notifyServiceRequest">
+        <wsdl:part name="request" element="types:NotifyService" />
+    </wsdl:message>
+    
+    <wsdl:message name="notifyServiceResponse">
+        <wsdl:part name="response" element="types:NotifyServiceResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="cancelActivityRequest">
+        <wsdl:part name="request" element="types:CancelActivity" />
+    </wsdl:message>
+    
+    <wsdl:message name="cancelActivityResponse">
+        <wsdl:part name="response" element="types:CancelActivityResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="wipeActivityRequest">
+        <wsdl:part name="request" element="types:WipeActivity" />
+    </wsdl:message>
+    
+    <wsdl:message name="wipeActivityResponse">
+        <wsdl:part name="response" element="types:WipeActivityResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="restartActivityRequest">
+        <wsdl:part name="request" element="types:RestartActivity" />
+    </wsdl:message>
+    
+    <wsdl:message name="restartActivityResponse">
+        <wsdl:part name="response" element="types:RestartActivityResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="getActivityStatusRequest">
+        <wsdl:part name="request" element="activity:GetActivityStatus" />
+    </wsdl:message>
+    
+    <wsdl:message name="getActivityStatusResponse">
+        <wsdl:part name="response" element="activity:GetActivityStatusResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="getActivityInfoRequest">
+        <wsdl:part name="request" element="activity:GetActivityInfo" />
+    </wsdl:message>
+    
+    <wsdl:message name="getActivityInfoResponse">
+        <wsdl:part name="response" element="activity:GetActivityInfoResponse" />
+    </wsdl:message>
+    
+    <!-- Fault messages -->
+    <wsdl:message name="OperationNotPossibleFault">
+        <wsdl:part name="fault" element="activity:OperationNotPossibleFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="InvalidActivityStateFault">
+        <wsdl:part name="fault" element="activity:InvalidActivityStateFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="UnableToRetrieveStatusFault">
+        <wsdl:part name="fault" element="activity:UnableToRetrieveStatusFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="UnknownAttributeFault">
+        <wsdl:part name="fault" element="activity:UnknownAttributeFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="InternalNotificationFault">
+        <wsdl:part name="fault" element="activity:InternalNotificationFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="InternalBaseFault">
+        <wsdl:part name="fault" element="esmain:InternalBaseFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="VectorLimitExceededFault">
+        <wsdl:part name="fault" element="esmain:VectorLimitExceededFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="AccessControlFault">
+        <wsdl:part name="fault" element="esmain:AccessControlFault" />
+    </wsdl:message>
+    
+    <!-- PortType -->
+    <wsdl:portType name="ActivityManagement">
+        <wsdl:operation name="PauseActivity">
+            <wsdl:input message="tns:pauseActivityRequest" />
+            <wsdl:output message="tns:pauseActivityResponse" />
+            <wsdl:fault name="VectorLimitExceededFault" message="tns:VectorLimitExceededFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+        
+        <wsdl:operation name="ResumeActivity">
+            <wsdl:input message="tns:resumeActivityRequest" />
+            <wsdl:output message="tns:resumeActivityResponse" />
+            <wsdl:fault name="VectorLimitExceededFault" message="tns:VectorLimitExceededFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+        
+        <wsdl:operation name="NotifyService">
+            <wsdl:input message="tns:notifyServiceRequest" />
+            <wsdl:output message="tns:notifyServiceResponse" />
+            <wsdl:fault name="VectorLimitExceededFault" message="tns:VectorLimitExceededFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+            <wsdl:fault name="InternalNotificationFault" message="tns:InternalNotificationFault" />
+        </wsdl:operation>
+        
+        <wsdl:operation name="CancelActivity">
+            <wsdl:input message="tns:cancelActivityRequest" />
+            <wsdl:output message="tns:cancelActivityResponse" />
+            <wsdl:fault name="VectorLimitExceededFault" message="tns:VectorLimitExceededFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+        
+        <wsdl:operation name="WipeActivity">
+            <wsdl:input message="tns:wipeActivityRequest" />
+            <wsdl:output message="tns:wipeActivityResponse" />
+            <wsdl:fault name="VectorLimitExceededFault" message="tns:VectorLimitExceededFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+        
+        <wsdl:operation name="RestartActivity">
+            <wsdl:input message="tns:restartActivityRequest" />
+            <wsdl:output message="tns:restartActivityResponse" />
+            <wsdl:fault name="OperationNotPossibleFault" message="tns:OperationNotPossibleFault" />
+            <wsdl:fault name="VectorLimitExceededFault" message="tns:VectorLimitExceededFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+        
+        <!-- Operations common with ActivityInfo port type -->
+        <wsdl:operation name="GetActivityStatus">
+            <wsdl:input message="tns:getActivityStatusRequest" />
+            <wsdl:output message="tns:getActivityStatusResponse" />
+            <wsdl:fault name="VectorLimitExceededFault" message="tns:VectorLimitExceededFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+        
+        <wsdl:operation name="GetActivityInfo">
+            <wsdl:input message="tns:getActivityInfoRequest" />
+            <wsdl:output message="tns:getActivityInfoResponse" />
+            <wsdl:fault name="VectorLimitExceededFault" message="tns:VectorLimitExceededFault" />
+            <wsdl:fault name="UnknownAttributeFault" message="tns:UnknownAttributeFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    <!-- Binding -->
+    <wsdl:binding type="tns:ActivityManagement" name="ActivityManagementSoapBinding">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+            style="document" />
+        <wsdl:operation name="PauseActivity">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="VectorLimitExceededFault">
+                <soap:fault use="literal" name="VectorLimitExceededFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+        
+        <wsdl:operation name="ResumeActivity">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="VectorLimitExceededFault">
+                <soap:fault use="literal" name="VectorLimitExceededFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+        
+        <wsdl:operation name="CancelActivity">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="VectorLimitExceededFault">
+                <soap:fault use="literal" name="VectorLimitExceededFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+        
+        <wsdl:operation name="WipeActivity">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="VectorLimitExceededFault">
+                <soap:fault use="literal" name="VectorLimitExceededFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+        
+        <wsdl:operation name="RestartActivity">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="OperationNotPossibleFault">
+                <soap:fault use="literal" name="OperationNotPossibleFault" />
+            </wsdl:fault>
+            <wsdl:fault name="VectorLimitExceededFault">
+                <soap:fault use="literal" name="VectorLimitExceededFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+        
+        <wsdl:operation name="NotifyService">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="VectorLimitExceededFault">
+                <soap:fault use="literal" name="VectorLimitExceededFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalNotificationFault">
+                <soap:fault use="literal" name="InternalNotificationFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+        
+        <wsdl:operation name="GetActivityStatus">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>            
+            <wsdl:fault name="VectorLimitExceededFault">
+                <soap:fault use="literal" name="VectorLimitExceededFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+        
+        <wsdl:operation name="GetActivityInfo">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="VectorLimitExceededFault">
+                <soap:fault use="literal" name="VectorLimitExceededFault" />
+            </wsdl:fault>
+            <wsdl:fault name="UnknownAttributeFault">
+                <soap:fault use="literal" name="UnknownAttributeFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+
+</wsdl:definitions>

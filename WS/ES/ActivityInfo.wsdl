@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions name="ActivityInfo" targetNamespace="http://www.eu-emi.eu/es/2010/12/activity"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://www.eu-emi.eu/es/2010/12/activity"
+    xmlns:types="http://www.eu-emi.eu/es/2010/12/activity/types"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:esmain="http://www.eu-emi.eu/es/2010/12/types">
+    
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.eu-emi.eu/es/2010/12/activity">
+            <xsd:import schemaLocation="ActivityInfo.xsd" namespace="http://www.eu-emi.eu/es/2010/12/activity/types"/>
+            <xsd:import schemaLocation="es-main.xsd" namespace="http://www.eu-emi.eu/es/2010/12/types" />
+        </xsd:schema>
+    </wsdl:types>
+    
+    <!-- Messages -->
+    <wsdl:message name="listActivitiesRequest">
+        <wsdl:part name="request" element="types:ListActivities" />
+    </wsdl:message>
+    
+    <wsdl:message name="listActivitiesResponse">
+        <wsdl:part name="response" element="types:ListActivitiesResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="getActivityStatusRequest">
+        <wsdl:part name="request" element="types:GetActivityStatus" />
+    </wsdl:message>
+    
+    <wsdl:message name="getActivityStatusResponse">
+        <wsdl:part name="response" element="types:GetActivityStatusResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="getActivityInfoRequest">
+        <wsdl:part name="request" element="types:GetActivityInfo" />
+    </wsdl:message>
+    
+    <wsdl:message name="getActivityInfoResponse">
+        <wsdl:part name="response" element="types:GetActivityInfoResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="UnknownAttributeFault">
+        <wsdl:part name="fault" element="types:UnknownAttributeFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="InvalidParameterFault">
+        <wsdl:part name="fault" element="types:InvalidParameterFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="InvalidActivityLimitFault">
+        <wsdl:part name="fault" element="types:InvalidActivityLimitFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="VectorLimitExceededFault">
+        <wsdl:part name="fault" element="esmain:VectorLimitExceededFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="AccessControlFault">
+        <wsdl:part name="fault" element="esmain:AccessControlFault" />
+    </wsdl:message>
+    
+    <wsdl:message name="InternalBaseFault">
+        <wsdl:part name="fault" element="esmain:InternalBaseFault" />
+    </wsdl:message>
+    
+    <!-- PortType -->
+    <wsdl:portType name="ActivityInfo">
+        <wsdl:operation name="ListActivities">
+            <wsdl:input message="tns:listActivitiesRequest" />
+            <wsdl:output message="tns:listActivitiesResponse" />
+            <wsdl:fault name="InvalidParameterFault" message="tns:InvalidParameterFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+        <wsdl:operation name="GetActivityStatus">
+            <wsdl:input message="tns:getActivityStatusRequest" />
+            <wsdl:output message="tns:getActivityStatusResponse" />
+            <wsdl:fault name="VectorLimitExceededFault" message="tns:VectorLimitExceededFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+        <wsdl:operation name="GetActivityInfo">
+            <wsdl:input message="tns:getActivityInfoRequest" />
+            <wsdl:output message="tns:getActivityInfoResponse" />
+            <wsdl:fault name="VectorLimitExceededFault" message="tns:VectorLimitExceededFault" />
+            <wsdl:fault name="UnknownAttributeFault" message="tns:UnknownAttributeFault" />
+            <wsdl:fault name="AccessControlFault" message="tns:AccessControlFault" />
+            <wsdl:fault name="InternalBaseFault" message="tns:InternalBaseFault" />
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    <!-- Binding -->
+    <wsdl:binding type="tns:ActivityInfo" name="ActivityInfoSoapBinding">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+        <wsdl:operation name="ListActivities">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterFault">
+                <soap:fault use="literal" name="InvalidParameterFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetActivityStatus">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="VectorLimitExceededFault">
+                <soap:fault use="literal" name="VectorLimitExceededFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetActivityInfo">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="UnknownAttributeFault">
+                <soap:fault use="literal" name="UnknownAttributeFault" />
+            </wsdl:fault>
+            <wsdl:fault name="VectorLimitExceededFault">
+                <soap:fault use="literal" name="VectorLimitExceededFault" />
+            </wsdl:fault>
+            <wsdl:fault name="AccessControlFault">
+                <soap:fault use="literal" name="AccessControlFault" />
+            </wsdl:fault>
+            <wsdl:fault name="InternalBaseFault">
+                <soap:fault use="literal" name="InternalBaseFault" />
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+
+</wsdl:definitions>

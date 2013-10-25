@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+	* Copyright (c) 2004 on behalf of the EU EGEE Project:
+	* The European Organization for Nuclear Research (CERN),
+	* Istituto Nazionale di Fisica Nucleare (INFN), Italy
+	* Datamat Spa, Italy
+	* Centre National de la Recherche Scientifique (CNRS), France
+	* CS Systeme d'Information (CSSI), France
+	* Royal Institute of Technology, Center for Parallel Computers (KTH-PDC), Sweden
+	* Universiteit van Amsterdam (UvA), Netherlands
+	* University of Helsinki (UH.HIP), Finland
+	* University of Bergen (UiB), Norway
+	* Council for the Central Laboratory of the Research Councils (CCLRC), United Kingdom
+	*
+	* Authors: Luigi Zangrando (zangrando@pd.infn.it)
+-->
+
+
+
+<wsdl:definitions name="CEMon_Faults"
+	xmlns='http://glite.org/ce/monitorapij/faults'
+	xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'
+	xmlns:xsd='http://www.w3.org/2001/XMLSchema'
+	xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/'
+	xmlns:common_faults='http://glite.org/ce/faults'
+	targetNamespace='http://glite.org/ce/monitorapij/faults'>
+
+
+	<wsdl:types>
+		<xsd:schema xmlns='http://glite.org/ce/monitorapij/faults'
+            targetNamespace='http://glite.org/ce/monitorapij/faults'
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:common_faults='http://glite.org/ce/faults'>
+
+			<xsd:import namespace='http://glite.org/ce/faults'
+				schemaLocation="org.glite.ce-faults.xsd" />
+
+			<xsd:element name="SubscriptionFault">
+				<xsd:complexType>
+					<xsd:complexContent>
+						<xsd:extension base="common_faults:BaseFaultType" />
+					</xsd:complexContent>
+				</xsd:complexType>
+			</xsd:element>
+			
+			
+			<xsd:element name="SubscriptionNotFoundFault">
+				<xsd:complexType>
+					<xsd:complexContent>
+						<xsd:extension base="common_faults:BaseFaultType" />
+					</xsd:complexContent>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="TopicNotSupportedFault">
+				<xsd:complexType>
+					<xsd:complexContent>
+						<xsd:extension base="common_faults:BaseFaultType" />
+					</xsd:complexContent>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="DialectNotSupportedFault">
+				<xsd:complexType>
+					<xsd:complexContent>
+						<xsd:extension base="common_faults:BaseFaultType" />
+					</xsd:complexContent>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+
+</wsdl:definitions>
+

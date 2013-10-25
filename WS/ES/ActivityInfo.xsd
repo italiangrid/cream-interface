@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.eu-emi.eu/es/2010/12/activity/types"
+	xmlns:tns="http://www.eu-emi.eu/es/2010/12/activity/types"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:esmain="http://www.eu-emi.eu/es/2010/12/types"
+	xmlns:glue="http://schemas.ogf.org/glue/2009/03/spec_2.0_r1"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xsd:import schemaLocation="GLUE2.xsd"
+		namespace="http://schemas.ogf.org/glue/2009/03/spec_2.0_r1" />
+
+	<xsd:import schemaLocation="es-main.xsd"
+		namespace="http://www.eu-emi.eu/es/2010/12/types" />
+
+	<xsd:element name="StageInDirectory" type="xsd:anyURI" />
+
+	<xsd:element name="StageOutDirectory" type="xsd:anyURI" />
+
+	<xsd:element name="SessionDirectory" type="xsd:anyURI" />
+
+	<xsd:element name="ComputingActivityProgress" type="xsd:string" />
+
+	<xsd:element name="Operation">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="RequestedOperation" type="xsd:NCName" />
+				<xsd:element name="Timestamp" type="xsd:dateTime" />
+				<xsd:element name="Success" type="xsd:boolean" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="ActivityInfoDocument" type="tns:ActivityInfoDocument_t" />
+
+	<xsd:complexType name="ActivityInfoDocument_t">
+		<xsd:complexContent>
+			<xsd:extension base="glue:ComputingActivity_t">
+				<xsd:sequence>
+					<xsd:element name="StageInDirectory" type="xsd:anyURI"	minOccurs="0" maxOccurs="unbounded" />
+					<xsd:element name="StageOutDirectory" type="xsd:anyURI"	minOccurs="0" maxOccurs="unbounded" />
+					<xsd:element name="SessionDirectory" type="xsd:anyURI"	minOccurs="0" maxOccurs="unbounded" />
+					<xsd:element ref="tns:ComputingActivityHistory" minOccurs="0" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="ComputingActivityHistory">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="esmain:ActivityStatus" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+				<xsd:element ref="tns:Operation" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="ActivityStatus">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Status" type="esmain:ActivityStatusState" />
+				<xsd:element name="Attribute" type="esmain:ActivityStatusAttribute" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="ListActivities">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="FromDate" type="xsd:dateTime"
+					minOccurs="0" />
+				<xsd:element name="ToDate" type="xsd:dateTime"
+					minOccurs="0" />
+				<xsd:element name="Limit" type="xsd:nonNegativeInteger"
+					minOccurs="0" />
+				<xsd:element ref="tns:ActivityStatus" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+
+
+	<xsd:element name="ListActivitiesResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="esmain:ActivityID" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xsd:sequence>
+			<xsd:attribute name="truncated" type="xsd:boolean"
+				default="false" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="GetActivityStatus">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="esmain:ActivityID" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="GetActivityStatusResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="tns:ActivityStatusItem" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="GetActivityInfo">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="esmain:ActivityID" maxOccurs="unbounded" />
+				<xsd:element name="AttributeName" type="xsd:QName"
+					minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="GetActivityInfoResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="tns:ActivityInfoItem" minOccurs="1"
+					maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<!-- an activity ID with activity status or specific faults -->
+
+	<xsd:element name="ActivityStatusItem">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="esmain:ActivityID" />
+				<xsd:choice>
+					<xsd:element ref="esmain:ActivityStatus" />
+					<xsd:element ref="esmain:InternalBaseFault" />
+					<xsd:element ref="esmain:AccessControlFault" />
+					<xsd:element ref="tns:ActivityNotFoundFault" />
+					<xsd:element ref="tns:UnableToRetrieveStatusFault" />
+					<xsd:element ref="tns:OperationNotPossibleFault" />
+					<xsd:element ref="tns:OperationNotAllowedFault" />
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- an activity ID with activity info or fault -->
+	<xsd:element name="ActivityInfoItem">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="esmain:ActivityID" />
+				<xsd:choice>
+					<xsd:element ref="tns:ActivityInfoDocument" />
+					<xsd:element ref="tns:AttributeInfoItem" maxOccurs="unbounded" />
+					<xsd:element ref="esmain:InternalBaseFault" />
+					<xsd:element ref="esmain:AccessControlFault" />
+					<xsd:element ref="tns:ActivityNotFoundFault" />
+					<xsd:element ref="tns:UnknownAttributeFault" />
+					<xsd:element ref="tns:UnableToRetrieveStatusFault" />
+					<xsd:element ref="tns:OperationNotPossibleFault" />
+					<xsd:element ref="tns:OperationNotAllowedFault" />
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="AttributeInfoItem">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="AttributeName" type="xsd:QName" />
+				<xsd:element name="AttributeValue" type="xsd:string" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+
+
+	<!-- Faults -->
+	<xsd:element name="UnableToRetrieveStatusFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="UnknownAttributeFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="OperationNotAllowedFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="ActivityNotFoundFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="InternalNotificationFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="OperationNotPossibleFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="InvalidActivityStateFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="InvalidActivityLimitFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="InvalidParameterFault">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="esmain:InternalBaseFault_Type" />
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

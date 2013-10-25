@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+	* Copyright (c) 2004 on behalf of the EU EGEE Project:
+	* The European Organization for Nuclear Research (CERN),
+	* Istituto Nazionale di Fisica Nucleare (INFN), Italy
+	* Datamat Spa, Italy
+	* Centre National de la Recherche Scientifique (CNRS), France
+	* CS Systeme d'Information (CSSI), France
+	* Royal Institute of Technology, Center for Parallel Computers (KTH-PDC), Sweden
+	* Universiteit van Amsterdam (UvA), Netherlands
+	* University of Helsinki (UH.HIP), Finland
+	* University of Bergen (UiB), Norway
+	* Council for the Central Laboratory of the Research Councils (CCLRC), United Kingdom
+	*
+	* Authors: Luigi Zangrando (zangrando@pd.infn.it)
+-->
+
+
+<wsdl:definitions name="CEMonitorConsumer"
+	xmlns:glitens="http://glite.org/ce/monitorapij/ws"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:common_faults="http://glite.org/ce/faults"
+	xmlns:cemon_faults="http://glite.org/ce/monitorapij/faults"
+	xmlns:cemon_types="http://glite.org/ce/monitorapij/types"
+	targetNamespace="http://glite.org/ce/monitorapij/ws">
+
+
+	<wsdl:import namespace="http://glite.org/ce/monitorapij/faults"
+		location="org.glite.ce-monitor_faults.wsdl" />
+
+	<wsdl:import namespace="http://glite.org/ce/monitorapij/types"
+		location="org.glite.ce-monitor_types.wsdl" />
+	
+	<wsdl:message name="Notify">
+		<wsdl:part name="Notification" type="cemon_types:Notification" />
+	</wsdl:message>
+
+	<wsdl:message name="NotifyResponse" />
+
+
+
+
+	<wsdl:portType name="CEMonitorConsumerPort">
+		<wsdl:operation name="Notify">
+			<wsdl:input name="notify" message="glitens:Notify" />
+			<wsdl:output name="notifyResponse" message="glitens:NotifyResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+
+
+	<wsdl:binding name="CEMonitorConsumerBinding"
+		type="glitens:CEMonitorConsumerPort">
+		<soap:binding style="rpc"
+			transport="http://schemas.xmlsoap.org/soap/http">
+		</soap:binding>
+		<wsdl:operation name="Notify">
+			<soap:operation
+				soapAction="http://glite.org/ce/monitorapij/ws/Notify">
+			</soap:operation>
+			<wsdl:input name="notify">
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws">
+				</soap:body>
+			</wsdl:input>
+			<wsdl:output name="notifyResponse">
+				<soap:body use="literal"
+					namespace="http://glite.org/ce/monitorapij/ws">
+				</soap:body>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+
+
+	<wsdl:service name="CEMonitorConsumer">
+		<wsdl:port name="CEMonitorConsumerPort"
+			binding="glitens:CEMonitorConsumerBinding">
+			<soap:address
+				location="http://localhost:8080/axis/services/CEMonitorConsumer" />
+		</wsdl:port>
+	</wsdl:service>
+
+
+</wsdl:definitions>

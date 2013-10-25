@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.eu-emi.eu/es/2010/12/creation/types"
+    xmlns:tns="http://www.eu-emi.eu/es/2010/12/creation/types"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:esmain="http://www.eu-emi.eu/es/2010/12/types"
+    xmlns:adl="http://www.eu-emi.eu/es/2010/12/adl" 
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    
+    <!--
+    Change log
+
+    v1.00:
+       - initial release
+
+    v1.01:
+       - no changes
+
+    v1.02:
+       - remove unnecessary <xsd:choice> in CreateActivitiesResponse
+
+   -->
+
+    <xsd:import schemaLocation="es-main.xsd" namespace="http://www.eu-emi.eu/es/2010/12/types" />
+    <xsd:import schemaLocation="es-activity-description.xsd" namespace="http://www.eu-emi.eu/es/2010/12/adl" />
+
+    <xsd:element name="CreateActivity">
+        <xsd:annotation>
+            <xsd:documentation>
+                A request to create a set of new activities.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="adl:ActivityDescription" minOccurs="1" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="CreateActivityResponse">
+        <xsd:annotation>
+            <xsd:documentation>
+                The service responds with a vector of individual responses, or throws a fault
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+           <xsd:sequence>
+                <xsd:element ref="tns:ActivityCreationResponse" minOccurs="1" maxOccurs="unbounded"/>
+           </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="ActivityCreationResponse">
+        <xsd:annotation>
+            <xsd:documentation>
+                For each individual activity creation request, relevant information about the new activity
+                or a fault is returned.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:sequence>
+                    <xsd:element ref="esmain:ActivityID" />
+                    <xsd:element ref="esmain:ActivityMgmtEndpointURL" />
+                    <xsd:element ref="esmain:ResourceInfoEndpointURL" />
+                    <xsd:element ref="esmain:ActivityStatus" />
+                    <!-- ETNSC: Estimated Time of the Next State Change -->
+                    <xsd:element name="ETNSC" type="xsd:dateTime" minOccurs="0" />
+                    <xsd:element name="StageInDirectory" type="tns:DirectoryReference" minOccurs="0" />
+                    <xsd:element name="SessionDirectory" type="tns:DirectoryReference" minOccurs="0" />
+                    <xsd:element name="StageOutDirectory" type="tns:DirectoryReference" minOccurs="0" />
+                </xsd:sequence>
+                <xsd:element ref="esmain:InternalBaseFault"/>
+                <xsd:element ref="esmain:AccessControlFault"/>
+                <xsd:element ref="tns:InvalidActivityDescriptionFault"/>
+                <xsd:element ref="tns:InvalidActivityDescriptionSemanticFault"/>
+                <xsd:element ref="tns:UnsupportedCapabilityFault"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="DirectoryReference">
+        <xsd:annotation>
+            <xsd:documentation>
+                Describes a directory which can be accessed through one or more URIs
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="URL" type="xsd:anyURI" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:element name="UnsupportedCapabilityFault">
+        <xsd:annotation>
+            <xsd:documentation>
+                Thrown when the activity description requests capabilities that are not supported by the service
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="esmain:InternalBaseFault_Type" />
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="InvalidActivityDescriptionSemanticFault">
+        <xsd:annotation>
+            <xsd:documentation>
+                Thrown when the activity description is semantically invalid
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="esmain:InternalBaseFault_Type" />
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="InvalidActivityDescriptionFault">
+        <xsd:annotation>
+            <xsd:documentation>
+                Thrown when the activity description is syntactically invalid
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="esmain:InternalBaseFault_Type" />
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>   
+</xsd:schema>

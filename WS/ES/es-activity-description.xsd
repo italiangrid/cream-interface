@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.eu-emi.eu/es/2010/12/adl"
+    xmlns:tns="http://www.eu-emi.eu/es/2010/12/adl"
+    xmlns:esmain="http://www.eu-emi.eu/es/2010/12/types"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xsd:import schemaLocation="es-main.xsd" namespace="http://www.eu-emi.eu/es/2010/12/types" />
+
+    <!--
+        Name: EMI Execution Service: XMLSchema Rendering of the Activity Description 
+
+        Changelog (relative to 1.0 version):
+
+         v1.01 : moved QueueName to Resources
+         v1.02 : (no changes)
+         v1.03 : RuntimeEnvironment Name element type changed to xsd:string
+                 ClientDataPush minOccurs set to zero
+                 Multiple OS requirements in Resources
+         v1.04 : new OptionType
+    -->
+
+	<xsd:element name="ActivityDescription">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:sequence>
+					<xsd:element ref="tns:ActivityIdentification" minOccurs="0"/>
+					<xsd:element ref="tns:Application" minOccurs="0"/>
+					<xsd:element ref="tns:Resources" minOccurs="0"/>
+					<xsd:element ref="tns:DataStaging" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:sequence>
+		</xsd:complexType>
+    </xsd:element>
+
+    <!--
+        ======= Activity Identification =======
+    -->
+
+
+    <xsd:element name="ActivityIdentification">
+      <xsd:complexType>
+         <xsd:sequence>
+             <xsd:sequence>
+                 <xsd:element name="Name" type="xsd:string" minOccurs="0"/>
+                 <xsd:element name="Description" type="xsd:string" minOccurs="0"/>
+                 <xsd:element name="Type" type="tns:ActivityTypeEnumeration" minOccurs="0"/>
+                 <xsd:element name="Annotation" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+             </xsd:sequence>
+         </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:simpleType name="ActivityTypeEnumeration">
+            <xsd:restriction base="xsd:string">
+                <xsd:enumeration value="collectionelement"/>
+                <xsd:enumeration value="parallelelement"/>
+                <xsd:enumeration value="single"/>
+                <xsd:enumeration value="workflownode"/>
+            </xsd:restriction>
+    </xsd:simpleType>
+
+
+<!--
+    ======= Application =======
+-->
+
+
+    <xsd:element name="Application">
+      <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="Executable" type="tns:Executable_Type" minOccurs="0"/>
+            <xsd:element name="Input" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="Output" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="Error" type="xsd:string" minOccurs="0"/>
+            <xsd:element ref="tns:Environment" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="PreExecutable" type="tns:Executable_Type" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="PostExecutable" type="tns:Executable_Type" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="tns:RemoteLogging" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="ExpirationTime" type="tns:OptionalTime" minOccurs="0"/>
+            <xsd:element name="WipeTime" type="tns:OptionalTime" minOccurs="0"/>
+            <xsd:element ref="tns:Notification" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+
+
+   <xsd:complexType name="Executable_Type">
+        <xsd:sequence>
+            <xsd:element name="Path" type="xsd:string"/>
+            <xsd:element name="Argument" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="FailIfExitCodeNotEqualTo" type="xsd:integer" minOccurs="0"/>
+        </xsd:sequence>
+   </xsd:complexType>
+
+
+  <xsd:element name="RemoteLogging">
+      <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="ServiceType" type="xsd:string"/>
+            <xsd:element name="URL" type="xsd:anyURI" minOccurs="0"/>
+          </xsd:sequence>
+          <xsd:attribute name="optional" type="xsd:boolean" default="false"/>
+      </xsd:complexType>
+   </xsd:element>
+
+   <xsd:complexType name="OptionalTime">
+      <xsd:simpleContent>
+       	<xsd:extension base="xsd:dateTime">
+       	  <xsd:attribute name="optional" type="xsd:boolean" default="false"/>
+       	</xsd:extension>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   
+   <xsd:element name="Notification">
+     <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="Protocol" type="tns:ProtocolTypeEnumeration" minOccurs="1"/>
+            <xsd:element name="Recipient" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="OnState" type="esmain:ActivityStatusState" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="optional" type="xsd:boolean"/>
+      </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:simpleType name="ProtocolTypeEnumeration">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="email"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="OptionType">
+      <xsd:sequence>
+          <xsd:element name="Name" type="xsd:string"/>
+          <xsd:element name="Value" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="Environment" type="tns:OptionType"/>
+    
+    <xsd:element name="Option" type="tns:OptionType"/>
+    
+    <!--
+     ======== Resources ========
+    -->
+    <xsd:element name="Resources">
+      <xsd:complexType>
+	    <xsd:sequence>
+            <xsd:element ref="tns:OperatingSystem" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="Platform" type="tns:PlatformEnumeration" minOccurs="0"/>
+            <xsd:element ref="tns:RuntimeEnvironment" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="tns:ParallelEnvironment" minOccurs="0"/>
+            <xsd:element name="Coprocessor" type="tns:CoprocessorType" minOccurs="0"/>
+            <xsd:element name="NetworkInfo" type="tns:NetworkInfoType" minOccurs="0"/>
+            <xsd:element name="NodeAccess" type="tns:NodeAccessEnumeration" minOccurs="0"/>
+            <xsd:element name="IndividualPhysicalMemory" type="xsd:unsignedLong" minOccurs="0"/>
+            <xsd:element name="IndividualVirtualMemory" type="xsd:unsignedLong" minOccurs="0"/>
+            <xsd:element name="DiskSpaceRequirement" type="xsd:unsignedLong" minOccurs="0"/>
+            <xsd:element name="RemoteSessionAccess" type="xsd:boolean" minOccurs="0"/>
+            <xsd:element ref="tns:Benchmark" minOccurs="0"/>
+            <xsd:element ref="tns:SlotRequirement" minOccurs="0"/>
+            <xsd:element name="QueueName" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="IndividualCPUTime" type="xsd:unsignedLong" minOccurs="0"/>
+            <xsd:element name="TotalCPUTime" type="xsd:unsignedLong" minOccurs="0"/>
+            <xsd:element name="WallTime" type="xsd:unsignedLong" minOccurs="0"/>
+	    </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="RuntimeEnvironment">
+      <xsd:complexType>
+         <xsd:sequence>
+              <xsd:element name="Name" type="xsd:string" />
+              <xsd:element name="Version" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="Option" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+         </xsd:sequence>
+         <xsd:attribute name="optional" type="xsd:boolean" default="false"/>
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="ParallelEnvironment">
+      <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="Type" type="xsd:string" />
+            <xsd:element name="Version" type="xsd:string" minOccurs="0"/>
+            <xsd:element ref="tns:ProcessesPerHost" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="tns:ThreadsPerProcess" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="tns:Option" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="ProcessesPerHost">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:unsignedLong">
+                    <xsd:attribute name="useSlotsPerHost" type="xsd:boolean" default="false"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="ThreadsPerProcess">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:unsignedLong">
+                    <xsd:attribute name="useSlotsPerHost" type="xsd:boolean" default="false"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <!-- an initial list of known parallel environments -->
+    <xsd:simpleType name="ParallelEnvironmentEnumeration">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="MPI"/>
+            <xsd:enumeration value="GridMPI"/>
+            <xsd:enumeration value="IntelMPI"/>
+            <xsd:enumeration value="LAM-MPI"/>
+            <xsd:enumeration value="MPICH1"/>
+            <xsd:enumeration value="MPICH2"/>
+            <xsd:enumeration value="MPICH-GM"/>
+            <xsd:enumeration value="MPICH-MX"/>
+            <xsd:enumeration value="MVAPICH"/>
+            <xsd:enumeration value="MVAPICH2"/>
+            <xsd:enumeration value="OpenMPI"/>
+            <xsd:enumeration value="POE"/>
+            <xsd:enumeration value="PVM"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="Benchmark">
+      <xsd:complexType>
+         <xsd:sequence>
+              <xsd:element name="BenchmarkType" type="tns:BenchmarkTypeEnumeration"/>
+              <xsd:element name="BenchmarkValue" type="xsd:long"/>
+         </xsd:sequence>
+         <xsd:attribute name="optional" type="xsd:boolean" default="false"/>
+       </xsd:complexType>
+     </xsd:element>
+     
+     <xsd:simpleType name="BenchmarkTypeEnumeration">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="bogomips"/>
+            <xsd:enumeration value="cfp2006"/>
+            <xsd:enumeration value="cint2006"/>
+            <xsd:enumeration value="linpack"/>
+            <xsd:enumeration value="specfp2000"/>
+            <xsd:enumeration value="specint2000"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="SlotRequirement">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="NumberOfSlots" type="xsd:unsignedLong"/>
+                <xsd:element name="SlotsPerHost" minOccurs="0">
+                  <xsd:complexType>
+                     <xsd:simpleContent>
+                       <xsd:extension base="xsd:unsignedLong">
+                         <xsd:attribute name="useNumberOfSlots" type="xsd:boolean" default="false"/>
+                       </xsd:extension>
+                     </xsd:simpleContent>
+                  </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="ExclusiveExecution" type="xsd:boolean" minOccurs="0"/>
+            </xsd:sequence>
+       </xsd:complexType>
+    </xsd:element>
+
+   <xsd:element name="OperatingSystem">
+     <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="Name" type="tns:OSNameEnumeration" />
+                    <xsd:element name="Family" type="tns:OSFamilyEnumeration" minOccurs="0"/>
+                    <xsd:element name="Version" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:simpleType name="NetworkInfoEnumeration">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="100megabitethernet"/>
+            <xsd:enumeration value="gigabitethernet"/>
+            <xsd:enumeration value="10gigabitethernet"/>
+            <xsd:enumeration value="infiniband"/>
+            <xsd:enumeration value="myrinet"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="NetworkInfoType">
+      <xsd:simpleContent>
+        <xsd:extension base="tns:NetworkInfoEnumeration">
+          <xsd:attribute name="optional" type="xsd:boolean"/>
+        </xsd:extension>
+      </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="OSFamilyEnumeration">
+        <xsd:restriction base="xsd:string">
+            <xsd:annotation>
+                <xsd:appinfo>
+                    <xsd:enumeration value="linux"/>
+                    <xsd:enumeration value="macosx"/>
+                    <xsd:enumeration value="solaris"/>
+                    <xsd:enumeration value="windows"/>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="OSNameEnumeration">
+        <xsd:restriction base="xsd:string">
+            <xsd:annotation>
+                <xsd:appinfo>
+                    <xsd:enumeration value="aix"/>
+                    <xsd:enumeration value="centos"/>
+                    <xsd:enumeration value="debian"/>
+                    <xsd:enumeration value="fedoracore"/>
+                    <xsd:enumeration value="gentoo"/>
+                    <xsd:enumeration value="leopard"/>
+                    <xsd:enumeration value="linux-rocks"/>
+                    <xsd:enumeration value="mandrake"/>
+                    <xsd:enumeration value="redhatenterpriseas"/>
+                    <xsd:enumeration value="scientificlinux"/>
+                    <xsd:enumeration value="scientificlinuxcern"/>
+                    <xsd:enumeration value="slackware"/>
+                    <xsd:enumeration value="suse"/>
+                    <xsd:enumeration value="ubuntu"/>
+                    <xsd:enumeration value="windowsvista"/>
+                    <xsd:enumeration value="windowsxp"/>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="CoprocessorEnumeration">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="CUDA"/>
+          <xsd:enumeration value="FPGA"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="CoprocessorType">
+      <xsd:simpleContent>
+        <xsd:extension base="tns:CoprocessorEnumeration">
+          <xsd:attribute name="optional" type="xsd:boolean"/>
+        </xsd:extension>
+      </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="NodeAccessEnumeration">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="inbound"/>
+            <xsd:enumeration value="outbound"/>
+            <xsd:enumeration value="inoutbound"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="PlatformEnumeration">
+            <xsd:restriction base="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <xsd:enumeration value="amd64"/>
+                        <xsd:enumeration value="i386"/>
+                        <xsd:enumeration value="itanium"/>
+                        <xsd:enumeration value="powerpc"/>
+                        <xsd:enumeration value="sparc"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:restriction>
+        </xsd:simpleType>
+
+    <!--
+        ============  DataStaging  =========== 
+    -->
+    
+    <xsd:element name="DataStaging">
+      <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="ClientDataPush" type="xsd:boolean" minOccurs="0"/>
+            <xsd:element ref="tns:InputFile" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="tns:OutputFile" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="InputFile">
+      <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="Name" type="xsd:string" minOccurs="1"/>
+            <xsd:element ref="tns:Source" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="IsExecutable" type="xsd:boolean" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+   
+    <xsd:element name="OutputFile">
+      <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="Name" type="xsd:string" minOccurs="1"/>
+            <xsd:element ref="tns:Target" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="Source">
+      <xsd:complexType >
+        <xsd:sequence>
+            <xsd:element name="URI" type="xsd:anyURI"/>
+            <xsd:element name="DelegationID" type="xsd:string" minOccurs="0"/>
+            <xsd:element ref="tns:Option" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="Target">
+      <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="URI" type="xsd:anyURI"/>
+            <xsd:element name="DelegationID" type="xsd:string" minOccurs="0"/>
+            <xsd:element ref="tns:Option" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="Mandatory" type="xsd:boolean" minOccurs="0"/>
+            <xsd:element name="CreationFlag" type="tns:CreationFlagEnumeration" minOccurs="0"/>
+            <xsd:element name="UseIfFailure" type="xsd:boolean" minOccurs="0"/>
+            <xsd:element name="UseIfCancel" type="xsd:boolean" minOccurs="0"/>
+            <xsd:element name="UseIfSuccess" type="xsd:boolean" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:simpleType name="CreationFlagEnumeration">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="overwrite"/>
+            <xsd:enumeration value="append"/>
+            <xsd:enumeration value="dontOverwrite"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

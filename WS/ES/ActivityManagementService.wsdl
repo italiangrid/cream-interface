@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:tns="http://www.eu-emi.eu/es/2010/12/activitymanagement">
+
+    <wsdl:import namespace="http://www.eu-emi.eu/es/2010/12/activitymanagement"
+         location="ActivityManagement.wsdl" />
+    
+    <wsdl:service name="ActivityManagementService">
+        <wsdl:port name="ActivityManagement" binding="tns:ActivityManagementSoapBinding">
+            <soap:address location="http://localhost:8443/ce-cream-es/services/ActivityManagement" />
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>
