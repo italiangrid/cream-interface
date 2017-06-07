@@ -2,7 +2,7 @@
 
 PKGNAME=glite-ce-wsdl
 PKGVER=1.15.1
-PKGREL=1
+PKGREL=2
 
 if [ "${1}" == "clean" ] ; then
     rm -rf ${PWD}/rpmbuild || echo "Nothing to clean"
